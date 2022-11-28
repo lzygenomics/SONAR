@@ -17,25 +17,19 @@ devtools:: install_github("lzygenomics/SONAR")
 ## Run SONAR
 
 1. Install the dependence
-2. Download the SONAR-code files
-3. **Follow the  ./SONAR-code/core-code/SONAR.R** IS ALL YOU NEED
+
+2. Install SONAR
+
+3. **Follow the  Example/SONAR-entrance.Rmd** IS ALL YOU NEED
 
 ## Files Annotation
 
-- **./SONAR-code/core-code/**	
+- **/inst/extdata/**	
 
-  *These files store the core code*.
-  
-  Follow the ./SONAR-code/core-code/SONAR.R. 
-  
-  Other files are called automatically and generally require no additional action.
-
-- **./SONAR-code/input/**	
-
-  *These files store the required input information, See SONAR.R for specific format requirements.*
+  *These files store the required input information, See SONAR-entrance.Rmd for specific format requirements.*
 
 
-- **./SONAR-code/result/**
+- **/result/**
 
   *These files store the output results*.
 
@@ -48,9 +42,11 @@ devtools:: install_github("lzygenomics/SONAR")
   Colocalization(correlation along the spatial) for pairs of cell types (**colocalization.pdf**).
 
 
-- **./SONAR-code/data/**
+- **/core-code/**	
 
   *no need to operate.* 
 
-  *These files store the preprocessed data that delivered to SONAR*.
+  *These files store the core code, and store the preprocessed data that delivered to SONAR*.
+  
+
 
