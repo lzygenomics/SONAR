@@ -1,6 +1,10 @@
 # SONAR
 SONAR is the algorithm of cell-type deconvolution for spatial transcriptomics
 
+## Installation
+#library(devtools)
+devtools:: install_github("lzygenomics/SONAR")
+
 ## Dependence
 
 - R version >= 4.0.5.
