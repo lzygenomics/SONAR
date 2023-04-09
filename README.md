@@ -48,6 +48,6 @@ devtools:: install_github("lzygenomics/SONAR")
 
   *These files store the core code, and store the preprocessed data that delivered to SONAR*.
   
-## A brif Sample
+## A brif Example
 
 Please Follow the Example/SONAR-entrance.Rmd
