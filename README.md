@@ -20,7 +20,7 @@ devtools:: install_github("lzygenomics/SONAR")
 
 2. Install SONAR
 
-3. Download the SONAR files: **Follow the  Example/SONAR-entrance.Rmd** IS ALL YOU NEED
+3. Download the SONAR files: **Follow the Example/SONAR-entrance.Rmd** IS ALL YOU NEED
 
 ## Files Annotation
 
@@ -48,5 +48,6 @@ devtools:: install_github("lzygenomics/SONAR")
 
   *These files store the core code, and store the preprocessed data that delivered to SONAR*.
   
+## A brif Sample
 
-
+Please Follow the Example/SONAR-entrance.Rmd
