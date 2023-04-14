@@ -1,5 +1,6 @@
+# SONAR 
 
-#Confifure
+## Configure
 
 ```{r setup}
 library(SONAR)
@@ -10,46 +11,51 @@ library(Seurat)
 library(matlabr)
 library(R.matlab)
 ```
+## Set paths / Prepare the Input
 
 ```{r}
-setwd(this.dir())
+#Set paths.In this example, we set the path as this files' dir.
+setwd(this.path::this.dir())
 options (warn = -1)
 ```
-
-#Set paths/Prepare the Input
-
+### #scRNA-seq data
 ```{r,warning=FALSE}
-#--------------you can prepare your data and replace these file----------------#
+#you can prepare your data and replace these files with yours,please keep the same format
 
-#This is the path to scRNA data, including expression numerical matrix(reffile) and cell type annotation(metafile)
+##The path to scRNA data
 sc_path <- paste0(this.dir(),"/../inst/extdata/sc/")
 
-##Make sure: reffile includes rowname(gene) and colname(cell barcode)
+##Expression matrix(reffile) with rowname(gene) and colname(cell barcode)
 reffile <- "development_heart.scRNA.processed.cnt.genexrow.tsv"
 
-##Make sure: metafile has 2 cols, the first is cell barcode(same as colname in reffile), the second is cell type
-            #and the first row of metafile has two characters: "cellname","celltype"
+##Cell type annotation(metafile), which has 2 columns, the first col is cell barcode(same as colname in reffile), the second is cell type annotation. This file has header of colnames:"cellname","celltype"
 metafile <- "type_annotation.tsv"
+```
+### #Spatial transcriptomics data
+```{r,warning=FALSE}
+#you can prepare your data and replace these files with yours,please keep the same format
 
-#This is the path to spatial data, including spatial expression numerical matrix(stfile) and spot coordinate(locfile)
+#The path to spatial data
 st_path <- paste0(this.dir(),"/../inst/extdata/spatial/")
 
-##Make sure: stfile includes rowname(gene) and colname(spot barcodes)
+##Spatial expression numerical matrix(stfile) with rowname(gene) and colname(spot barcodes)
 stfile <- "PCW6.5_1_st_cnt.genexrow.tsv"
-##Make sure: locfile has 3 cols, the first is spot barcodes(same as colname in stfile), the second is x coord(numeric), the third is y coord(numeric)
-            #and the first row of locfile has three characters: "barcodes","xcoord","ycoord"
-locfile <- "coords.tsv"
-#This is the path to output
-result_path <- paste0(this.dir(),"/../result/")
 
-#--------------the following don't need to additional handle-------------------#
+##Spot coordinate(locfile), which has 3 cols, the first is spot barcodes(same as colname in stfile), the second is x coord(numeric), the third is y coord(numeric). This file has header of colnames: "barcodes","xcoord","ycoord"
+locfile <- "coords.tsv"
+
+###path of core-code, which doesn't need to modify
 code_path <- paste0(this.dir(),"/../core-code/")
 ```
 
-#Preprocess and Deliver to SONAR
+## Set the Output path
+```{r,warning=FALSE}
+#This is the path to output
+result_path <- paste0(this.dir(),"/../result/")
+```
+## Pre-process and Deliver data to SONAR
 
 ```{r,warning=FALSE}
-
 #read in scRNA data
 ref <- fread(file.path(sc_path, reffile))
 ref <- as.data.frame(ref, check.names = FALSE)
@@ -98,9 +104,10 @@ temp<-Matrix::Matrix(temp)
 temp[temp==0] <- NA
 mindist <- min(temp,na.rm = T)
 h <- 1.2*mindist
-
+```
+## Start Deconvolution and Collect results
+```{r,warning=FALSE}
 #start deconvolution
-
 SONAR.deconvolute(fname = paste0(code_path,"SONAR_main.m"),path=code_path,h,wait = TRUE)
 ## if return 0, deconvolution has done
 
@@ -115,9 +122,12 @@ rownames(SONAR.results) <- rownames(spot_name)
 
 #Complete! SONAR.results is the final results
 write.table(SONAR.results,file = paste(result_path,'SONAR.results.txt',sep=""),sep = ",")
+
 ```
 
-#Visualization
+## Visualization
+
+### #Pie plot to show the predicted cell type composition
 
 ```{r,warning=FALSE}
 library(gtools)
@@ -130,23 +140,36 @@ library(ggcorrplot)
 #prepare the color/coords/results(SONAR.results)
 color_vector<-c("#8DD3C7","#C7E2E1","#FB8072","#FFED6F","#80B1D3","#FDB462","#B3DE69","#FCCDE5","#D9D9D9","#BDB8D5","#CCEBC5","#D1C3D1","#A6CEE3","#1F78B4","PaleTurquoise","#6A3D9A","#1B9E77","#E41A1C","pink","#F781BF")
 coords<-coords[rownames(SONAR.results),]
-
 #pie plot(large image may need a few minutes)
 pie<-SONAR.visualize.pie(SONAR.results,coords,color_vector)
 ggsave(pie,filename = paste0(result_path,"pie.pdf"),width = 25,height = 25,units = "in")
+```
+<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211507883.png" style="zoom: 50%;" />
 
+### #Spatial scatter plot to show absolute predicted proportion for each cell type 
+
+```{r,warning=FALSE}
 #cell type proportions show
 select_type <- colnames(SONAR.results)[1:8]
 ##predicted proportion
 abs_prop<-SONAR.prop(scale = F,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4)
 ggsave(abs_prop,filename = paste0(result_path,"abs_prop.pdf"),width = 25,height = 25,units = "in")
+```
+<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211707046.png" style="zoom:50%;" />
 
+### #Spatial scatter plot to show scaled predicted proportion for each cell type 
+
+```{r,warning=FALSE}
 ##scaled predicted proportion(Min-Max Scales by cell type)
 scaled_prop<-SONAR.prop(scale = T,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4,colors = turbo(20,alpha = 0.8))
 ggsave(scaled_prop,filename = paste0(result_path,"scaled_prop.pdf"),width = 25,height = 25,units = "in")
+```
+![](C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211811019.png)
 
+### #Co-localization for pairs of cell types 
+
+```{r,warning=FALSE}
 ##co-localization test
-
 col2 = colorRampPalette(rev(c('#67001F', '#B2182B', '#D6604D', '#F4A582',
                               '#FDDBC7', '#FFFFFF', '#D1E5F0', '#92C5DE',
                               '#4393C3', '#2166AC', '#053061')))
@@ -157,3 +180,5 @@ corrplot(tl.col = "black",pch.col="black",tl.srt = 90,diag = F,order="FPC",col=c
 dev.off()
 par(m)
 ```
+
+<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414212945334.png" style="zoom:50%;" />
