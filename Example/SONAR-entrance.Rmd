@@ -93,7 +93,8 @@ processed_input<-SONAR.preprocess(sc_count=ref,sc_cell_type=typeanno,sc_nUMI=nUM
 trans_data<-SONAR.deliver(processed_data=processed_input,path=code_path)
 
 #define the bandwidth, default is 1.2 times minimal distance
-temp <- as.matrix(dist(coords))
+temp<-dist(coords)
+temp<-Matrix::Matrix(temp)
 temp[temp==0] <- NA
 mindist <- min(temp,na.rm = T)
 h <- 1.2*mindist
