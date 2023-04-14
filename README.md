@@ -50,4 +50,4 @@ devtools:: install_github("lzygenomics/SONAR")
   
 ## A brif Example
 
-Please Follow the Example/SONAR-entrance.Rmd
+Please Follow the Example/SONAR-entrance.html or Example/SONAR-entrance.Rmd
