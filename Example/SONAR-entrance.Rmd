@@ -144,7 +144,6 @@ coords<-coords[rownames(SONAR.results),]
 pie<-SONAR.visualize.pie(SONAR.results,coords,color_vector)
 ggsave(pie,filename = paste0(result_path,"pie.pdf"),width = 25,height = 25,units = "in")
 ```
-<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211507883.png" style="zoom: 50%;" />
 
 ### #Spatial scatter plot to show absolute predicted proportion for each cell type 
 
@@ -155,7 +154,6 @@ select_type <- colnames(SONAR.results)[1:8]
 abs_prop<-SONAR.prop(scale = F,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4)
 ggsave(abs_prop,filename = paste0(result_path,"abs_prop.pdf"),width = 25,height = 25,units = "in")
 ```
-<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211707046.png" style="zoom:50%;" />
 
 ### #Spatial scatter plot to show scaled predicted proportion for each cell type 
 
@@ -164,7 +162,6 @@ ggsave(abs_prop,filename = paste0(result_path,"abs_prop.pdf"),width = 25,height 
 scaled_prop<-SONAR.prop(scale = T,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4,colors = turbo(20,alpha = 0.8))
 ggsave(scaled_prop,filename = paste0(result_path,"scaled_prop.pdf"),width = 25,height = 25,units = "in")
 ```
-![](C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414211811019.png)
 
 ### #Co-localization for pairs of cell types 
 
@@ -181,4 +178,3 @@ dev.off()
 par(m)
 ```
 
-<img src="C:\Users\LiuZY\AppData\Roaming\Typora\typora-user-images\image-20230414212945334.png" style="zoom:50%;" />
