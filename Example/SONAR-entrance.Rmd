@@ -3,8 +3,7 @@
 
 ## Configure
 
-```{r setup}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```{r,setup,warning = FALSE, message = FALSE}
 library(SONAR)
 library(here)
 library(Matrix)
@@ -131,7 +130,7 @@ write.table(SONAR.results,file = paste(result_path,'SONAR.results.txt',sep=""),s
 
 ### #Pie plot to show the predicted cell type composition
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,fig.height=20,fig.width=22}
 library(gtools)
 library(ggplot2)
 library(scatterpie)
@@ -151,7 +150,7 @@ pie
 
 ### #Spatial scatter plot to show absolute predicted proportion for each cell type 
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,fig.height=10,fig.width=20}
 #cell type proportions show
 select_type <- colnames(SONAR.results)[1:8]
 ##predicted proportion
@@ -163,7 +162,7 @@ abs_prop
 
 ### #Spatial scatter plot to show scaled predicted proportion for each cell type 
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,fig.height=10,fig.width=20}
 ##scaled predicted proportion(Min-Max Scales by cell type)
 scaled_prop<-SONAR.prop(scale = T,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4,colors = turbo(20,alpha = 0.8))
 ggsave(scaled_prop,filename = paste0(result_path,"scaled_prop.pdf"),width = 25,height = 25,units = "in")
@@ -173,7 +172,7 @@ scaled_prop
 
 ### #Co-localization for pairs of cell types 
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,fig.height=20,fig.width=20}
 ##co-localization test
 col2 = colorRampPalette(rev(c('#67001F', '#B2182B', '#D6604D', '#F4A582',
                               '#FDDBC7', '#FFFFFF', '#D1E5F0', '#92C5DE',
