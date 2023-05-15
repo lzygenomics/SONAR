@@ -1,10 +1,12 @@
+
 # SONAR 
 
 ## Configure
 
 ```{r setup}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(SONAR)
-library(this.path)
+library(here)
 library(Matrix)
 library(data.table)
 library(Seurat)
@@ -15,7 +17,7 @@ library(R.matlab)
 
 ```{r}
 #Set paths.In this example, we set the path as this files' dir.
-setwd(this.path::this.dir())
+setwd(here::here())
 options (warn = -1)
 ```
 ### #scRNA-seq data
@@ -23,7 +25,7 @@ options (warn = -1)
 #you can prepare your data and replace these files with yours,please keep the same format
 
 ##The path to scRNA data
-sc_path <- paste0(this.dir(),"/../inst/extdata/sc/")
+sc_path <- file.path(here::here("inst", "extdata", "sc"))
 
 ##Expression matrix(reffile) with rowname(gene) and colname(cell barcode)
 reffile <- "development_heart.scRNA.processed.cnt.genexrow.tsv"
@@ -36,7 +38,7 @@ metafile <- "type_annotation.tsv"
 #you can prepare your data and replace these files with yours,please keep the same format
 
 #The path to spatial data
-st_path <- paste0(this.dir(),"/../inst/extdata/spatial/")
+st_path <- file.path(here::here("inst", "extdata", "spatial"))
 
 ##Spatial expression numerical matrix(stfile) with rowname(gene) and colname(spot barcodes)
 stfile <- "PCW6.5_1_st_cnt.genexrow.tsv"
@@ -45,17 +47,17 @@ stfile <- "PCW6.5_1_st_cnt.genexrow.tsv"
 locfile <- "coords.tsv"
 
 ###path of core-code, which doesn't need to modify
-code_path <- paste0(this.dir(),"/../core-code/")
+code_path <- file.path(here::here("core-code"), "/")
 ```
 
 ## Set the Output path
 ```{r,warning=FALSE}
 #This is the path to output
-result_path <- paste0(this.dir(),"/../result/")
+result_path <- file.path(here::here("result"), "/")
 ```
 ## Pre-process and Deliver data to SONAR
 
-```{r,warning=FALSE}
+```{r,message=FALSE, warning=FALSE}
 #read in scRNA data
 ref <- fread(file.path(sc_path, reffile))
 ref <- as.data.frame(ref, check.names = FALSE)
@@ -143,6 +145,8 @@ coords<-coords[rownames(SONAR.results),]
 #pie plot(large image may need a few minutes)
 pie<-SONAR.visualize.pie(SONAR.results,coords,color_vector)
 ggsave(pie,filename = paste0(result_path,"pie.pdf"),width = 25,height = 25,units = "in")
+#for show
+pie
 ```
 
 ### #Spatial scatter plot to show absolute predicted proportion for each cell type 
@@ -153,6 +157,8 @@ select_type <- colnames(SONAR.results)[1:8]
 ##predicted proportion
 abs_prop<-SONAR.prop(scale = F,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4)
 ggsave(abs_prop,filename = paste0(result_path,"abs_prop.pdf"),width = 25,height = 25,units = "in")
+#for show
+abs_prop
 ```
 
 ### #Spatial scatter plot to show scaled predicted proportion for each cell type 
@@ -161,6 +167,8 @@ ggsave(abs_prop,filename = paste0(result_path,"abs_prop.pdf"),width = 25,height 
 ##scaled predicted proportion(Min-Max Scales by cell type)
 scaled_prop<-SONAR.prop(scale = T,proportion=SONAR.results,spatial_location=coords,select_type=select_type,NumCols = 4,colors = turbo(20,alpha = 0.8))
 ggsave(scaled_prop,filename = paste0(result_path,"scaled_prop.pdf"),width = 25,height = 25,units = "in")
+#for show
+scaled_prop
 ```
 
 ### #Co-localization for pairs of cell types 
@@ -176,5 +184,6 @@ par(mfrow=c(1,1))
 corrplot(tl.col = "black",pch.col="black",tl.srt = 90,diag = F,order="FPC",col=col2(200),corr =cor(SONAR.results,method="spearman"), p.mat = round(cor_pmat(SONAR.results,method = "spearman"),6),method = "circle",type = "lower",insig="label_sig",sig.level = c(.0001,.001, .01, .05),pch.cex = 1)
 dev.off()
 par(m)
+#for show
+corrplot(tl.col = "black",pch.col="black",tl.srt = 90,diag = F,order="FPC",col=col2(200),corr =cor(SONAR.results,method="spearman"), p.mat = round(cor_pmat(SONAR.results,method = "spearman"),6),method = "circle",type = "lower",insig="label_sig",sig.level = c(.0001,.001, .01, .05),pch.cex = 1)
 ```
-
