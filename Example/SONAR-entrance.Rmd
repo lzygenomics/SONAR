@@ -16,7 +16,7 @@ library(R.matlab)
 
 ```{r}
 #Set paths.In this example, we set the path as this files' dir.
-setwd(here::here())
+knitr::opts_knit$set(root.dir = here::here())
 options (warn = -1)
 ```
 ### #scRNA-seq data
