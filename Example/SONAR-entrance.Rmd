@@ -124,6 +124,23 @@ rownames(SONAR.results) <- rownames(spot_name)
 #Complete! SONAR.results is the final results
 write.table(SONAR.results,file = paste(result_path,'SONAR.results.txt',sep=""),sep = ",")
 
+# #For Slide-seqV2 or datasets with higher resolution, we recommand to deal with the result to keep the cell types with top n (default n =3) high predictions in each spot
+# topn <- function(x) {
+#   z <- rep(0, length(x))
+#   #if you want to keep less cell type, you can use 1:n, n is the cell type numbers that you want to keep
+#   i <- order(x, decreasing = TRUE)[1:3]
+#   z[i] <- x[i]
+#   # return the vector
+#   return(z)
+# }
+#
+# # apply the function to each row of df
+# SONAR.results <- apply(SONAR.results, 1, top2)
+# 
+# # convert back to data frame
+# SONAR.results <- as.data.frame(t(SONAR.results))
+# SONAR.results<-SONAR.results/rowSums(SONAR.results)
+
 ```
 
 ## Visualization
