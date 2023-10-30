@@ -44,10 +44,18 @@ devtools:: install_github("lzygenomics/SONAR")
 
 - **/core-code/**	
 
-  *no need to operate.* 
+  *no need to operate.*
 
   *These files store the core code, and store the preprocessed data that delivered to SONAR*.
   
 ## A brif Example
 
 Please Follow the Example/SONAR-entrance.html or Example/SONAR-entrance.Rmd
+
+## Publication Link
+
+  https://www.nature.com/articles/s41467-023-40458-9
+
+## How to cite SONAR
+
+Liu, Z., Wu, D., Zhai, W. et al. SONAR enables cell type deconvolution with spatially weighted Poisson-Gamma model for spatial transcriptomics. Nat Commun 14, 4727 (2023). https://doi.org/10.1038/s41467-023-40458-9
