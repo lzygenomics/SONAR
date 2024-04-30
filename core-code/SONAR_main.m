@@ -1,15 +1,25 @@
 clearvars -except thepath h;
 tic
-y=importdata('y.txt',",");
-y=y.data;y=y';
-u=importdata('u.txt',",");
-u=u.data;u=u';temp=repelem(1,size(u,2)); u=[temp;u];
-N=importdata('N.txt',",");
-N=N.data;
-label=importdata('label.txt',",");
-label=label.data;
-coord=importdata('coord.txt',",");
-coord=coord.data;
+
+% Construct full paths for the input files
+y_file = fullfile(thepath, 'y.txt');
+u_file = fullfile(thepath, 'u.txt');
+N_file = fullfile(thepath, 'N.txt');
+label_file = fullfile(thepath, 'label.txt');
+coord_file = fullfile(thepath, 'coord.txt');
+
+% Import data using the constructed paths
+y = importdata(y_file, ",");
+y = y.data; y = y';
+u = importdata(u_file, ",");
+u = u.data; u = u'; temp = repelem(1, size(u, 2)); u = [temp; u];
+N = importdata(N_file, ",");
+N = N.data;
+label = importdata(label_file, ",");
+label = label.data;
+coord = importdata(coord_file, ",");
+coord = coord.data;
+
 D=pdist(coord);
 D=squareform(D);
 [r,c]=size(D);
@@ -52,7 +62,10 @@ JIE(:,end)=[];
 for guiyi_i = 1:size(JIE,1)
     JIE(guiyi_i,:)=JIE(guiyi_i,:)/sum(JIE(guiyi_i,:));
 end
-thepath=replace(thepath,"/","\");
-eval(['save ',thepath,'SONAR_results',' JIE'])
+
+% Save results using fullfile
+results_file = fullfile(thepath, 'SONAR_results.mat');
+save(results_file, 'JIE');
+
 toc
 fprintf("Complete\n")
