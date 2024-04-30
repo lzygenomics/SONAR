@@ -97,7 +97,7 @@ names(nUMI_spot) <- colnames(spots)
 processed_input<-SONAR.preprocess(sc_count=ref,sc_cell_type=typeanno,sc_nUMI=nUMI,sp_coords=coords,sp_count=spots,sp_nUMI=nUMI_spot,cores=8)
 
 #deliver the preprocessed data to SONAR
-trans_data<-SONAR.deliver(processed_data=processed_input,path=code_path)
+SONAR.deliver(processed_data=processed_input,path=code_path)
 
 #define the bandwidth, default is 1.2 times minimal distance
 temp<-dist(coords)
