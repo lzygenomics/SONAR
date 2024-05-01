@@ -65,7 +65,18 @@ end
 
 % Save results using fullfile
 results_file = fullfile(thepath, 'SONAR_results.mat');
-save(results_file, 'JIE');
+
+% Try to save in .mat format first
+try
+    save(results_file, 'JIE');
+    fprintf('Data successfully saved in MAT format.\n');
+catch ME
+    % If saving in .mat format fails, print error and save as CSV
+    fprintf('Failed to save in MAT format: %s\n', ME.message);
+    fprintf('Saving data in CSV format instead.\n');
+    csv_results_file = fullfile(thepath, 'SONAR_results.csv');
+    csvwrite(csv_results_file, JIE);
+end
 
 toc
 fprintf("Complete\n")
