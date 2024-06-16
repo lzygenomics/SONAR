@@ -60,6 +60,4 @@ Please Follow the Example/SONAR-entrance.Rmd
 
 Liu, Z., Wu, D., Zhai, W. et al. SONAR enables cell type deconvolution with spatially weighted Poisson-Gamma model for spatial transcriptomics. Nat Commun 14, 4727 (2023). https://doi.org/10.1038/s41467-023-40458-9
 
-## Tips
-
-If you don't have enough memory, you can try reducing the number of parallel cores. Thank you, and happy researching!
+## Thank you, and happy researching!
