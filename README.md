@@ -16,11 +16,16 @@ devtools:: install_github("lzygenomics/SONAR")
 
 ## Run SONAR
 
-1. Install the dependence
+1. Install the dependence (pay attention that you need to install the **MATLAB**)
 
 2. Install SONAR
 
-3. Download the SONAR files: **Follow the Example/SONAR-entrance.Rmd** IS ALL YOU NEED
+3. Download the SONAR files (This **files structure** will help you run on the custom data)
+
+4. Open **Example/SONAR-entrance.Rmd** , you could run and get the example results.
+
+For running the custom dataset, you could modify the data preparation stage in **Example/SONAR-entrance.Rmd** with the same format, 
+and substitude the single cell data and spatial data in this files structure
 
 ## Files Annotation
 
