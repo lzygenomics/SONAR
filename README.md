@@ -1,5 +1,7 @@
 # SONAR: A Probabilistic Framework for Cell-Type Deconvolution in Spatial Transcriptomics
 
+> **Important update:** This repository is kept as the original MATLAB-backed SONAR archive. A MATLAB-free R/Rcpp version is available at **[SONAR_R](https://github.com/lzygenomics/SONAR_R)**.
+
 SONAR is an algorithm developed for cell-type deconvolution in spatial transcriptomics. It integrates spatial information in a balanced way to enhance performance and robustness.
 
 ## Key Features
